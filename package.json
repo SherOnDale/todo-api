@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongo": "*"
+    "mongo": "*",
+    "mongoose": "*",
+    "express": "*",
+    "body-parser": "*"
   }
 }
