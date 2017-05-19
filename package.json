@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "run": "node server/server.js",
     "test": "mocha server/**/*.test.js",
+    "runloop": "nodemon server/server.js",
     "looptest": "nodemon --exec \"npm test\""
   },
   "author": "",

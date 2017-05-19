@@ -21,16 +21,30 @@ app.post('/todos', (req, res) => {
   });
   todo.save()
     .then((doc) => {
-      res.status(200).send(doc);
+      res.status(200)
+        .send(doc);
     }, (err) => {
-      res.status(400).send(err);
+      res.status(400)
+        .send(err);
     });
+});
+
+app.get('/todos', (req, res) => {
+  ToDo.find({}).then((todos) => {
+    res.status(200)
+      .send({
+        todos
+      })
+  }, (err) => {
+    res.status(400)
+      .send(err);
+  });
 });
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
 
-module.exports =  {
+module.exports = {
   app
 };
