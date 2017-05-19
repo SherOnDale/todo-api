@@ -7,6 +7,10 @@ const {
 const {
   User
 } = require('./models/user');
+const {
+  MongoClient,
+  ObjectID
+} = require('mongodb');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -39,6 +43,27 @@ app.get('/todos', (req, res) => {
     res.status(400)
       .send(err);
   });
+});
+
+app.get('/todos/:id', (req, res) => {
+  let id = req.params.id;
+  if (ObjectID.isValid(id)) {
+    ToDo.findById(id)
+      .then((todo) => {
+        if (todo) {
+          res.send({
+            todo
+          });
+        } else {
+          res.status(404).send('No document exists with the given id');
+        }
+      })
+      .catch((err) => {
+        res.status(404).send('Cant find a document with the given id');
+      });
+  } else {
+    res.status(400).send('Enter a valid id');
+  }
 });
 
 app.listen(3000, () => {
