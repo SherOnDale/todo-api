@@ -4,14 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha server/**/*.test.js",
+    "looptest": "nodemon --exec \"npm test\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongo": "*",
+    "mongodb": "*",
     "mongoose": "*",
     "express": "*",
     "body-parser": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "nodemon": "*",
+    "expect": "*",
+    "supertest": "*"
   }
 }
