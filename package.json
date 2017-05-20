@@ -16,7 +16,10 @@
     "mongoose": "*",
     "express": "*",
     "body-parser": "*",
-    "lodash": "*"
+    "lodash": "*",
+    "validator": "*",
+    "crypto-js": "*",
+    "jsonwebtoken": "*"
   },
   "devDependencies": {
     "mocha": "*",
