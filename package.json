@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",
-    "test": "mocha server/**/*.test.js",
+    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha server/**/*.test.js",
     "runloop": "nodemon server/server.js",
-    "looptest": "nodemon --exec \"npm test\""
+    "testloop": "nodemon --exec \"npm test\""
   },
   "author": "",
   "license": "ISC",

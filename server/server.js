@@ -1,3 +1,13 @@
+let env = process.env.NODE_ENV || 'development';
+
+if(env =='development') {
+  process.env.PORT = 3000;
+  process.env.MONGOLAB_URI = 'mongodb://127.0.0.1:27017/ToDoApp';
+} else if(env == 'test') {
+  process.env.PORT = 3000;
+  process.env.MONGOLAB_URI = 'mongodb://127.0.0.1:27017/ToDoAppTest';
+}
+
 const {
   mongoose
 } = require('./db/mongoose');
@@ -17,7 +27,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
