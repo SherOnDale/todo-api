@@ -115,7 +115,15 @@ app.patch('/todos/:id', (req, res) => {
       })
       .then((todo) => {
         if(todo) {
-          res.send(todo);
+          ToDo.findById(id)
+            .then(todo2 => {
+              if(todo2) {
+                res.send({
+                  todoInDb: todo2,
+                  todo: todo
+                });
+              }
+            });
         } else {
           res.status(404).send("No document witht the given ID is found");
         }
@@ -127,7 +135,7 @@ app.patch('/todos/:id', (req, res) => {
     res.status(400).send('Enter a valid ID');
   }
 });
-
+//this is a test
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
