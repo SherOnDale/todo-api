@@ -15,7 +15,8 @@
     "mongodb": "*",
     "mongoose": "*",
     "express": "*",
-    "body-parser": "*"
+    "body-parser": "*",
+    "lodash": "*"
   },
   "devDependencies": {
     "mocha": "*",
