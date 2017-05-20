@@ -154,9 +154,9 @@ describe('PATCH /todos/:id', () => {
       .send(updatedTodo)
       .expect(200)
       .expect((res) => {
-        expect(res.body.todoInDb.text).toBe(updatedTodo.text);
-        expect(res.body.todoInDb.completed).toBe(false);
-        expect(res.body.todoInDb.completedAt).toBe(null);
+        expect(res.body.todo.text).toBe(updatedTodo.text);
+        expect(res.body.todo.completed).toBe(false);
+        expect(res.body.todo.completedAt).toBe(null);
       })
       .end(done);
   });

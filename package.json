@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
-    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha server/**/*.test.js",
-    "runloop": "nodemon server/server.js",
+    "start": "node server.js",
+    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha **/*.test.js",
+    "runloop": "nodemon server.js",
     "testloop": "nodemon --exec \"npm test\""
   },
   "author": "",

@@ -13,6 +13,9 @@ const {
   MongoClient,
   ObjectID
 } = require('mongodb');
+const {
+  authenticate
+} = require('./middleware/authenticate');
 
 const _ = require('lodash');
 const express = require('express');
@@ -116,16 +119,10 @@ app.patch('/todos/:id', (req, res) => {
         new: true
       })
       .then((todo) => {
-        if(todo) {
-          ToDo.findById(id)
-            .then(todo2 => {
-              if(todo2) {
-                res.send({
-                  todoInDb: todo2,
-                  todo: todo
-                });
-              }
-            });
+        if (todo) {
+          res.send({
+            todo
+          });
         } else {
           res.status(404).send("No document witht the given ID is found");
         }
@@ -151,6 +148,10 @@ app.post('/users', (req, res) => {
     .catch(e => {
       res.status(400).send(e);
     });
+});
+
+app.get('/users/me', authenticate, (req, res) => {
+  res.send(req.user);
 });
 
 app.listen(port, () => {
