@@ -20,7 +20,7 @@ const users = [{
     token: JWT.sign({
       _id: user1Id.toHexString(),
       access: 'auth'
-    }, '123abc').toString()
+    }, process.env.JWT_SECRET).toString()
   }]
 }, {
   _id: user2Id,
@@ -31,7 +31,7 @@ const users = [{
     token: JWT.sign({
       _id: user2Id.toHexString(),
       access: 'auth'
-    }, '123abc').toString()
+    }, process.env.JWT_SECRET).toString()
   }]
 }
 ];
