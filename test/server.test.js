@@ -256,3 +256,45 @@ describe('POST /users', () => {
       .end(done);
   });
 });
+
+describe('POST /users/login', () => {
+  it('should log in without error', (done) => {
+    let user = {
+      email: users[0].email,
+      password: users[0].password
+    };
+    request(app)
+      .post('/users/login')
+      .send(user)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.email).toBe(user.email);
+        expect(res.body._id).toExist(users[0]._id);
+        expect(res.headers['x-auth']).toExist();
+      })
+      .end(done);
+  });
+
+  it('should throw invalid email error', (done) => {
+    let user = {
+      email: 'thisemaildontexist@gmail.com',
+      password: 'anypassword'
+    };
+    request(app)
+      .post('/users/login')
+      .send(user)
+      .expect(400)
+      .end(done);
+  });
+
+  it('should throw invalid password error', (done) => {
+    let user = {
+      email: users[0].email,
+      password: users[1].password
+    };
+    request(app)
+      .post('/users/login')
+      .expect(400)
+      .end(done);
+  });
+});
