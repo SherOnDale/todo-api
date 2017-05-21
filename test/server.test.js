@@ -16,6 +16,9 @@ const {
 const {
   ToDo
 } = require('./../models/todo');
+const {
+  User
+} = require('./../models/user');
 
 beforeEach(populateUsers);
 beforeEach(populateToDos);
@@ -165,6 +168,90 @@ describe('PATCH /todos/:id', () => {
         expect(res.body.todo.text).toBe(updatedTodo.text);
         expect(res.body.todo.completed).toBe(true);
         expect(res.body.todo.completedAt).toNotBe(null);
+      })
+      .end(done);
+  });
+});
+describe('GET /users/me', () => {
+  it('should return user if authenticated', (done) => {
+    request(app)
+      .get('/users/me')
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .expect(res => {
+        expect(res.body._id).toBe(users[0]._id.toHexString());
+        expect(res.body.email).toBe(users[0].email);
+      })
+      .end(done);
+  });
+
+  it('it should return 401 if not authenticated', (done) => {
+    request(app)
+      .get('/users/me')
+      .expect(401)
+      .expect(res => {
+        expect(res.body).toEqual({});
+      })
+      .end(done);
+  });
+});
+
+describe('POST /users', () => {
+  let user = {
+    email: 'sherinbinu@gmail.com',
+    password: 'newuserpass'
+  };
+  it('should create a new user', (done) => {
+    request(app)
+      .post('/users')
+      .send(user)
+      .expect(200)
+      .expect(res => {
+        expect(res.headers['x-auth']).toExist();
+        expect(res.body._id).toExist();
+        expect(res.body.email).toBe(user.email);
+      })
+      .end(err => {
+        if (err) return done(err);
+        User.findOne({
+            email: user.email
+          })
+          .then(userDB => {
+            expect(userDB).toExist();
+            expect(userDB.email).toBe(user.email);
+            expect(userDB.password).toNotBe(user.password);
+            done();
+          })
+          .catch(err => done(err));
+      });
+  });
+
+  it('should return validation errors if request is invalid', (done) => {
+    let user = {
+      email: 'sherinbinu',
+      password: 'newuserpass'
+    };
+    request(app)
+      .post('/users')
+      .send(user)
+      .expect(400)
+      .expect(res => {
+        expect(res.body.name).toBe('ValidationError');
+      })
+      .end(done);
+  });
+
+  it('should not create user if email already exists', (done) => {
+    let user = {
+      email: 'sherinbinu@hotmail.com',
+      password: 'newuserpass'
+    };
+    request(app)
+      .post('/users')
+      .send(user)
+      .expect(400)
+      .expect(res => {
+        expect(res.body.code).toBe(11000);
       })
       .end(done);
   });
