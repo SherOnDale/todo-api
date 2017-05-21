@@ -62,7 +62,7 @@ UserSchema.statics.findByToken = function (token) {
   var decoded;
   try {
     decoded = JWT.verify(token, '123abc');
-  } catch(e) {
+  } catch (e) {
     return Promise.reject();
   }
   return User.findOne({
@@ -72,9 +72,29 @@ UserSchema.statics.findByToken = function (token) {
   });
 };
 
-UserSchema.pre('save', function(next) {
+UserSchema.statics.findByCredentials = function ({
+  email,
+  password
+}) {
+  let User = this;
+  return User.findOne({
+      email
+    })
+    .then(user => {
+      if (!user) return Promise.reject('Email is wrong');
+      return new Promise((resolve, reject) => {
+        bcrypt.compare(password, user.password, (err, res) => {
+          console.log(res);
+          if (err || !res) reject('Password is wrong');
+          if (res) resolve(user);
+        });
+      });
+    });
+};
+
+UserSchema.pre('save', function (next) {
   let user = this;
-  if(user.isModified('password')) {
+  if (user.isModified('password')) {
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(user.password, salt, (err, hash) => {
         user.password = hash;
