@@ -25,19 +25,28 @@ const users = [{
 }, {
   _id: user2Id,
   email: 'sherondale13@gmail.com',
-  password: 'user2pass'
+  password: 'user2pass',
+  tokens: [{
+    access: 'auth',
+    token: JWT.sign({
+      _id: user2Id.toHexString(),
+      access: 'auth'
+    }, '123abc').toString()
+  }]
 }
 ];
 
 const todo = [{
     _id: new ObjectID(),
-    text: 'This is a first test todo'
+    text: 'This is a first test todo',
+    _creator: user1Id
   },
   {
     _id: new ObjectID(),
     text: 'This is a second test todo',
     completed: true,
-    completedAt: 1234566
+    completedAt: 1234566,
+    _creator: user2Id
   }
 ];
 
