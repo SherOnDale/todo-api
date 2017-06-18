@@ -1,11 +1,10 @@
 const expect = require('expect');
 const request = require('supertest');
 const {ObjectID} = require('mongodb');
-
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
 const {User} = require('./../models/user');
-const {todos, populateTodos, users, populateUsers} = require('./seed/seed');
+const {todos, populateTodos, populateUsers , users, } = require('./seed/seed');
 
 beforeEach(populateUsers);
 beforeEach(populateTodos);
@@ -101,7 +100,7 @@ describe('GET /todos/:id', () => {
     request(app)
       .get('/todos/123abc')
       .set('x-auth', users[0].tokens[0].token)
-      .expect(404)
+      .expect(400)
       .end(done);
   });
 });
@@ -158,11 +157,11 @@ describe('DELETE /todos/:id', () => {
       .end(done);
   });
 
-  it('should return 404 if object id is invalid', (done) => {
+  it('should return 400 if object id is invalid', (done) => {
     request(app)
       .delete('/todos/123abc')
       .set('x-auth', users[1].tokens[0].token)
-      .expect(404)
+      .expect(400)
       .end(done);
   });
 });
@@ -349,10 +348,10 @@ describe('POST /users/login', () => {
   });
 });
 
-describe('DELETE /users/me/token', () => {
+describe('DELETE /users/logout', () => {
   it('should remove auth token on logout', (done) => {
     request(app)
-      .delete('/users/me/token')
+      .delete('/users/logout')
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .end((err, res) => {
