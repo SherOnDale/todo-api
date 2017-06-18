@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "runloop": "nodemon server.js"
+    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha **/*.test.js",
+    "runloop": "nodemon server.js",
+    "testloop": "nodemon --exec \"npm test\""
   },
   "author": "",
   "license": "ISC",
@@ -20,7 +22,10 @@
     "jsonwebtoken": "*"
   },
   "devDependencies": {
-    "nodemon": "*"
+    "mocha": "*",
+    "nodemon": "*",
+    "expect": "*",
+    "supertest": "*"
   },
   "engines": {
     "node": "7.9.0"
