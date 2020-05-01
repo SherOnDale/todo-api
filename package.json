@@ -7,7 +7,9 @@
     "start": "node server.js",
     "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha **/*.test.js",
     "runloop": "nodemon server.js",
-    "testloop": "nodemon --exec \"npm test\""
+    "testloop": "nodemon --exec \"npm test\"",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "",
   "license": "ISC",
@@ -19,7 +21,8 @@
     "lodash": "*",
     "validator": "*",
     "bcryptjs": "*",
-    "jsonwebtoken": "*"
+    "jsonwebtoken": "*",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "mocha": "*",
@@ -29,5 +32,6 @@
   },
   "engines": {
     "node": "7.9.0"
-  }
+  },
+  "snyk": true
 }
